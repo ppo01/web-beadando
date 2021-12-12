@@ -1,0 +1,6 @@
+body {
+    background: #ffffff url("#{resource['images/vilagos_bg.png']}") no-repeat center top;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+}

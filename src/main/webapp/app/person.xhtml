@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<f:view>
+    <h:head></h:head>
+    <h:body>
+        <p:outputLabel>Welcome to Person page</p:outputLabel>
+
+        <h:form id="logoutForm">
+            <p:tabMenu activeIndex="#{param.i}">
+                <p:menuitem value="Index" outcome="index">
+                    <f:param name="i" value="0"/>
+                </p:menuitem>
+                <p:menuitem value="Persons" outcome="person">
+                    <f:param name="i" value="1"/>
+                </p:menuitem>
+                <p:menuitem value="Companies" outcome="company">
+                    <f:param name="i" value="2"/>
+                </p:menuitem>
+                <p:menuitem value="PersonCompanies" outcome="personCompany">
+                    <f:param name="i" value="3"/>
+                </p:menuitem>
+                <p:menuitem value="Logout" action="#{logoutBacking.submit}"/>
+            </p:tabMenu>
+        </h:form>
+        <h:form id="personForm">
+            <p:dataTable id="person_datatable" var="person" value="#{personBean.personDtos}" rowKey="#{person.personId}"
+                         selection="#{personBean.selectedDto}" selectionMode="single">
+                <p:ajax event="rowSelect" listener="#{personBean.onRowSelect}" update="personForm"/>
+                <f:facet name="header">
+                    Persons
+                </f:facet>
+
+                <p:column headerText="Id">
+                    <h:outputText value="#{person.personId}" />
+                </p:column>
+                <p:column headerText="Name">
+                    <h:outputText value="#{person.personName}" />
+                </p:column>
+                <p:column headerText="Position">
+                    <h:outputText value="#{person.position}" />
+                </p:column>
+            </p:dataTable>
+            <div>
+            <p:inputText placeholder="Name" id="Name" value="#{personBean.newName}"/>
+            <p:inputText placeholder="Position" id="Position" value="#{personBean.newPosition}"/>
+            </div>
+            <div>
+            <p:commandButton value="Save" action="#{personBean.save}" update="personForm"/>
+                <p:commandButton value="Modify" action="#{personBean.modify}" update="personForm"/>
+                <p:commandButton value="Delete" action="#{personBean.delete}" update="personForm"/>
+            </div>
+        </h:form>
+
+    </h:body>
+</f:view>
+</html>

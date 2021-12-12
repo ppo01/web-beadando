@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<f:view>
+    <h:head></h:head>
+    <h:body>
+        <p:outputLabel>Welcome to Person Company page</p:outputLabel>
+
+        <h:form id="logoutForm">
+            <p:tabMenu activeIndex="#{param.i}">
+                <p:menuitem value="Index" outcome="index">
+                    <f:param name="i" value="0"/>
+                </p:menuitem>
+                <p:menuitem value="Persons" outcome="person">
+                    <f:param name="i" value="1"/>
+                </p:menuitem>
+                <p:menuitem value="Companies" outcome="company">
+                    <f:param name="i" value="2"/>
+                </p:menuitem>
+                <p:menuitem value="PersonCompanies" outcome="personCompany">
+                    <f:param name="i" value="3"/>
+                </p:menuitem>
+                <p:menuitem value="Logout" action="#{logoutBacking.submit}"/>
+            </p:tabMenu>
+        </h:form>
+        <h:form id="personCompanyForm">
+            <p:dataTable id="person_company_datatable" var="personCompany" value="#{personCompanyBean.personCompanyDtos}" rowKey="#{personCompany.person_company_id}">
+                selection="#{personCompanyBean.selectedDto}" selectionMode="single">
+                <p:ajax event="rowSelect" listener="#{personCompanyBean.onRowSelect}" update="personCompanyForm"/>
+                <f:facet name="header">
+                    Person Company
+                </f:facet>
+
+                <p:column headerText="Id">
+                    <h:outputText value="#{personCompany.person_company_id}" />
+                </p:column>
+                <p:column headerText="CompanyName" sortBy="#{personCompany.company_id.companyName}" groupRow="true">>
+                    <h:outputText value="#{personCompany.company_id.companyName}" />
+                </p:column>
+                <p:column headerText="PersonName">
+                    <h:outputText value="#{personCompany.person_id.personName}" />
+                </p:column>
+                <p:column headerText="Date">
+                    <h:outputText value="#{personCompany.date}" />
+                </p:column>
+            </p:dataTable>
+
+            <div>
+                <p:selectOneMenu id="companyId" value="#{personCompanyBean.newCompanyId}" converter="#{companyConverter}">
+                    <f:selectItem itemLabel="Select One" itemValue="#{null}"/>
+                    <f:selectItems itemLabel="#{company.companyName}" var="company" value="#{companyBean.companyDtos}" itemValue="#{company}"/>
+                </p:selectOneMenu>
+                <p:selectOneMenu id="personId" value="#{personCompanyBean.newPersonId}" converter="#{personConverter}">
+                    <f:selectItem itemLabel="Select One" itemValue="#{null}"/>
+                    <f:selectItems itemLabel="#{person.personName}" var="person" value="#{personBean.personDtos}" itemValue="#{person}"/>
+                </p:selectOneMenu>
+            </div>
+
+            <div>
+                <p:commandButton value="New" action="#{personCompanyBean.addPersonCompany}" update="personCompanyForm"/>
+            </div>
+
+
+        </h:form>
+    </h:body>
+</f:view>
+</html>
