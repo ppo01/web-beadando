@@ -60,7 +60,7 @@
     </dependencies>
 
     <build>
-        <finalName>hr-module</finalName>
+        <finalName>web-beadando</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
